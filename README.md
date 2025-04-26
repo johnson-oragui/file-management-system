@@ -16,17 +16,15 @@ It’s a lightweight "mini-shell" built using Java **OOP principles**.
 ## 📁 Project Structure
 
 ```
-/src/main/
-  Main.java
-  Util.java
+  /app/src/main/java/org/fileManagement/app/
+  App.java
+  Command.java
   User.java
   Library.java
 
-/java-libs/
-  jbcrypt-0.4.jar
-
-/build/
-  *.class
+  /utilities/src/main/java/org/fileManagement/utilities/
+  AuthUtils.java
+  JsonUtils.java
 ```
 
 ---
