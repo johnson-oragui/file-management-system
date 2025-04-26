@@ -24,6 +24,9 @@ It’s a lightweight "mini-shell" built using Java **OOP principles**.
 
 /java-libs/
   jbcrypt-0.4.jar
+
+/build/
+  *.class
 ```
 
 ---
@@ -39,10 +42,16 @@ git clone https://github.com/johnson-oragui/file-management-system.git
 cd file-management-system
 ```
 
-2. **Compile and run the project:**
+2. **Compile the project:**
 
 ```bash
-./compile-and-run.sh
+./gradlew clean build
+```
+
+2. **Run the jar**
+
+```bash
+java -jar app/build/libs/app.jar
 ```
 
 ✅ **No external dependencies are needed**.  
