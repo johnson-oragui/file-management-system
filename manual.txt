@@ -1,0 +1,68 @@
+### 📖 Command Help Documentation
+
+| Command   | Description |
+|-----------|-------------|
+| `login`   | Authenticate a user with username and password. |
+| `register`| Create a new account with username and password. |
+| `borrow`  | Borrow a book from the library if available. |
+| `return`  | Return a previously borrowed book. |
+| `list`    | Display all books in the library along with their availability status. |
+| `add`     | Add a new book to the library. (Admin only, if you want) |
+| `report`  | Show a list of currently borrowed books and who borrowed them. |
+| `logout`  | End the current user's session and return to the main menu. |
+
+---
+
+
+**login**  
+> Usage: `login <username> <password>`  
+> Description: Log into the system with your credentials.  
+> Example: `login alice password123`
+
+---
+
+**register**  
+> Usage: `register <username> <password>`  
+> Description: Register a new user account.  
+> Example: `register bob secret456`
+
+---
+
+**borrow**  
+> Usage: `borrow <book_title>`  
+> Description: Borrow a book if it is available.  
+> Example: `borrow "Harry Potter and the Sorcerer's Stone"`
+
+---
+
+**return**  
+> Usage: `return <book_title>`  
+> Description: Return a book you previously borrowed.  
+> Example: `return "Harry Potter and the Sorcerer's Stone"`
+
+---
+
+**list**  
+> Usage: `list`  
+> Description: Show all books in the library and whether they are available.
+
+---
+
+**add**  
+> Usage: `add <book_title>`  
+> Description: Add a new book to the library collection.  
+> (Optional: Only admin users might be allowed.)
+
+---
+
+**report**  
+> Usage: `report`  
+> Description: View who has borrowed which books.
+
+---
+
+**logout**  
+> Usage: `logout`  
+> Description: Log out of the current account.
+
+---
