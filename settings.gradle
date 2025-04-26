@@ -17,4 +17,4 @@ plugins {
 }
 
 rootProject.name = 'file-management-system'
-include('app', 'list', 'utilities')
+include('app', 'utilities')
