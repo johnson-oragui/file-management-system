@@ -1,0 +1,39 @@
+[ {
+  "username" : "johnson",
+  "password" : "$2a$10$VKuUx8xIZzRodPE.fjx2mOF8ow1IEtzszjT9IIAgQcUNpktMIzYuu",
+  "id" : 0
+}, {
+  "username" : "john",
+  "password" : "$2a$10$.3YQ52slcXotQgLsTg7J8utj95ERLp2sLOvttTlZQS5io3MNd4y12",
+  "id" : 1
+}, {
+  "username" : "jayson",
+  "password" : "$2a$10$cMqFRilcL8lhSXM3iAnoU.lxbIUg4zNwwAWuHlJJx4c8uY9vfKV3m",
+  "id" : 2
+}, {
+  "username" : "ha",
+  "password" : "$2a$10$gVeoLSwUzgFPxYNV53eL/OqUe1lDQv6ZS4Ubh0jKwQ8p93BVpakb.",
+  "id" : 3
+}, {
+  "username" : "jay",
+  "password" : "$2a$10$HRek3xdshl7/IpS3qnNVQOPq4RHDU7Hl9Ej32M5W8ZdJVb71isIoK",
+  "id" : 4,
+  "borrowedBooks" : [ {
+    "title" : "Citadel of Hosts",
+    "author" : "Some Author",
+    "isbn" : "1",
+    "isBorrowed" : true
+  }]
+}, {
+  "username" : "me",
+  "password" : "$2a$10$GHgyViV0SU1CD6D1UmJct.sIVdb7xdirxKkANHtTnXj4n4NcV9AHe",
+  "id" : 5
+}, {
+  "username" : "ge",
+  "password" : "$2a$10$hKsiotfNpkv3oDc6fkQEqO5usOvNqljmahA3KgTouQ552F8Y6ST1a",
+  "id" : 6
+}, {
+  "username" : "new",
+  "password" : "$2a$10$g053k3KB5/HLGEA66VLP.OrPh473RcFo357iVdEVohRhhnsLC40hi",
+  "id" : 7
+} ]
