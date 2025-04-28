@@ -5,13 +5,17 @@ import java.util.*;
 import org.fileManagement.utilities.AuthUtils;
 import org.fileManagement.utilities.JsonUtils;
 
-class Pair<T, V> {
-  public T first;
-  public V second;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-  public Pair(T first, V second) {
-    this.first = first;
-    this.second = second;
+class Pair<T, V> {
+  public T loginSuccess;
+  public V currentUser;
+
+  public Pair(T loginSuccess, V currentUser) {
+    this.loginSuccess = loginSuccess;
+    this.currentUser = currentUser;
   }
 }
 
@@ -20,8 +24,6 @@ public abstract class User {
   protected String password;
   protected Integer id;
 
-  public abstract void showMenu();
-
   public abstract void save();
 
   public abstract String toString();
@@ -29,7 +31,6 @@ public abstract class User {
 
 class Admin extends User {
 
-  @Override
   public void showMenu() {
   }
 
@@ -68,20 +69,19 @@ class Admin extends User {
 }
 
 class Member extends User {
+
+  @JsonProperty("borrowedBooks")
+  @JsonInclude(Include.NON_EMPTY)
   private List<Book> borrowedBooks = new ArrayList<>();
 
-  @Override
-  public void showMenu() {
+  public Member() {
   }
-
-  public void borrowBook(Book book) {
-    /* ... */ }
 
   public void returnBook(Book book) {
     /* ... */ }
 
+  @Override
   public String toString() {
-
     return username;
   }
 
@@ -94,7 +94,7 @@ class Member extends User {
   public Boolean new_(String username, String password) {
     List<Member> objects = JsonUtils.readObjectsFromJsonFile("member.json", Member.class);
     for (Member object : objects) {
-      if (object.getUsername().equals(username)) {
+      if (object.getUsername().equalsIgnoreCase(username)) {
         return true;
       }
     }
@@ -143,6 +143,40 @@ class Member extends User {
 
   public void setId(Integer newId) {
     this.id = newId;
+  }
+
+  public void setBorrowedBooks(List<Book> books) {
+    this.borrowedBooks = books != null ? books : new ArrayList<>();
+  }
+
+  public List<Book> getBorrowedBooks() {
+    return this.borrowedBooks;
+  }
+
+  // Method to add single book
+  public Boolean addBorrowedBook(Book book) {
+    if (this.borrowedBooks.size() == 0) {
+      this.borrowedBooks.add(book);
+      return true;
+    }
+    for (Book book_ : this.borrowedBooks) {
+      if (book_.getTitle().equalsIgnoreCase(book.getTitle())) {
+        return false; // book already borrowed
+      }
+    }
+
+    this.borrowedBooks.add(book);
+
+    List<Member> members = JsonUtils.readObjectsFromJsonFile("member.json", Member.class);
+    for (Member member : members) {
+      if (member.getUsername().equalsIgnoreCase(this.getUsername())) {
+        member.borrowedBooks.clear();
+        member.setBorrowedBooks(borrowedBooks);
+      }
+    }
+    JsonUtils.writeObjectToJsonFile(members, "member.json");
+    return true;
+
   }
 
 }
