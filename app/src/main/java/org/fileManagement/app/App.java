@@ -4,9 +4,9 @@
 package org.fileManagement.app;
 
 public class App {
-    public static User currentUser = null;
+    public static Member currentMember = null;
 
     public static void main(String[] args) {
-        Command.handleCommand(currentUser);
+        Command.handleCommand(currentMember);
     }
 }
