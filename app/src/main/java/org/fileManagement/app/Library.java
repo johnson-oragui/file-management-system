@@ -78,23 +78,36 @@ class Library {
   }
 
   public Optional<Book> borrow(String title) {
-    this.search(title, false, true);
-    Optional<Book> foundBook = Optional.ofNullable(this.books.get(title));
+    // finds the searched book and loads free-books to this.books
+    List<Book> bookExists = this.search(title, false, true);
+
     List<Book> booksToWrite = new ArrayList<>();
 
-    if (foundBook.isPresent()) {
-      Book book = foundBook.get();
+    if (bookExists.size() > 0) {
+
+      Book book = bookExists.get(0);
       book.setIsBorrowed(true);
+      try {
+        // loads all books to this.books
+        loadBooksFromFile(false, false);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      // remove the searched book
       this.books.remove(book.getTitle());
+      // add the searched book with updated isBorrowed
       this.books.put(book.getTitle(), book);
+      // set back as a list for serialization
       for (Map.Entry<String, Book> entry : this.books.entrySet()) {
         booksToWrite.add(entry.getValue());
       }
 
+      // write to file with updated searched book
       JsonUtils.writeObjectToJsonFile(booksToWrite, "library.json");
+      return Optional.ofNullable(book);
     }
 
-    return foundBook;
+    return Optional.empty();
   }
 }
 
@@ -103,6 +116,9 @@ class Book {
   private String author;
   private String isbn;
   private boolean isBorrowed;
+
+  public Book() {
+  }
 
   @Override
   public String toString() {
