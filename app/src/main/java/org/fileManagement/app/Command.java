@@ -1,6 +1,9 @@
 package org.fileManagement.app;
 
 import java.io.FileReader;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Command {
@@ -35,6 +38,9 @@ public class Command {
           continue;
 
         String command = commands[0];
+
+        Library lib = new Library();
+
         switch (command) {
           case "register":
             if (commands.length < 3 || 3 > commands.length) {
@@ -76,6 +82,9 @@ public class Command {
               continue;
             }
             if (commands[1].trim().equalsIgnoreCase("books")) {
+
+              List<Book> books = lib.search("", false, false);
+              System.out.println(Arrays.toString(books.toArray()));
               continue;
             }
             if (commands[1].trim().equalsIgnoreCase("users")) {
@@ -90,7 +99,31 @@ public class Command {
             System.out.println("Usage: list users");
             System.out.println(commands[1].trim().equalsIgnoreCase("users"));
             continue;
-
+          case "borrow":
+            if (commands.length < 2) {
+              System.out.println("Usage borrow <book title>");
+              continue;
+            }
+            if (currentUser == null) {
+              System.out.println("Unauthorized");
+              continue;
+            }
+            StringBuilder title = new StringBuilder();
+            int idx = 0;
+            for (String s : commands) {
+              if (idx > 0) {
+                title.append(s);
+                title.append(" ");
+              }
+              idx++;
+            }
+            Optional<Book> foundBook = lib.borrow(title.toString().trim());
+            if (foundBook.isPresent()) {
+              System.out.println(foundBook.toString());
+              continue;
+            }
+            System.out.println(title + " is borrowed already or does not exist.");
+            continue;
           default:
             System.out.println("invalid command");
 
