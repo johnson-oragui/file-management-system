@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Command {
 
-  public static void handleCommand(User currentUser) {
+  public static void handleCommand(Member currentMember) {
     try (Scanner scanner = new Scanner(System.in)) {
       System.out.println("FILE MANAGEMENT SYSTEM");
       System.out.println("commands: exit, quit, login, register, borrow, return, list books, add book, report, logout");
@@ -63,12 +63,12 @@ public class Command {
               continue;
             }
             Pair<Boolean, Member> pair = Member.login(commands[1], commands[2]);
-            if (!pair.first) {
+            if (!pair.loginSuccess) {
               System.out.println("Invalid credentials");
               return;
             }
-            currentUser = pair.second;
-            System.out.println(currentUser);
+            currentMember = pair.currentUser;
+            System.out.println(currentMember);
             continue;
           case "list":
             if (commands.length < 2 || 2 > commands.length) {
@@ -77,7 +77,7 @@ public class Command {
               System.out.println("Usage: list users");
               continue;
             }
-            if (currentUser == null) {
+            if (currentMember == null) {
               System.out.println("Unauthorized");
               continue;
             }
@@ -88,7 +88,7 @@ public class Command {
               continue;
             }
             if (commands[1].trim().equalsIgnoreCase("users")) {
-              if ((currentUser != null) && currentUser.getClass() == Member.class) {
+              if ((currentMember != null) && currentMember.getClass() == Member.class) {
                 System.out.println("Unauthorized. Admins Only");
                 continue;
               }
@@ -104,7 +104,7 @@ public class Command {
               System.out.println("Usage borrow <book title>");
               continue;
             }
-            if (currentUser == null) {
+            if (currentMember == null) {
               System.out.println("Unauthorized");
               continue;
             }
@@ -119,7 +119,9 @@ public class Command {
             }
             Optional<Book> foundBook = lib.borrow(title.toString().trim());
             if (foundBook.isPresent()) {
-              System.out.println(foundBook.toString());
+              Book book = foundBook.get();
+              currentMember.addBorrowedBook(book);
+              System.out.println(book.toString() + " successfully borrowed!");
               continue;
             }
             System.out.println(title + " is borrowed already or does not exist.");
