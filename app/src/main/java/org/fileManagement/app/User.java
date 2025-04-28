@@ -108,13 +108,15 @@ class Member extends User {
   public static Pair<Boolean, Member> login(String username, String password) {
     List<Member> members = JsonUtils.readObjectsFromJsonFile("member.json", Member.class);
     for (Member member : members) {
+
       if (member.getUsername().equalsIgnoreCase(username)
           && AuthUtils.verifyPassword(password, AuthUtils.hashPassword(password))) {
 
         Member existMember = new Member();
-        existMember.setId(member.id);
-        existMember.setPassword(member.password);
-        existMember.setUsername(member.username);
+        existMember.setId(member.getId());
+        existMember.setPassword(member.getPassword());
+        existMember.setUsername(member.getUsername());
+        existMember.setBorrowedBooks(member.getBorrowedBooks());
         return new Pair<>(true, existMember);
       }
     }

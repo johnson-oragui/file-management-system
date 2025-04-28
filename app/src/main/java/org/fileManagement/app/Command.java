@@ -94,10 +94,15 @@ public class Command {
               }
               continue;
             }
+            if (commands[1].trim().equalsIgnoreCase("borrowed-books")) {
+
+              System.out.println(currentMember.getBorrowedBooks().toString());
+              continue;
+            }
 
             System.out.println("Usage: list books");
             System.out.println("Usage: list users");
-            System.out.println(commands[1].trim().equalsIgnoreCase("users"));
+            System.out.println("Usage: list borrowed-books");
             continue;
           case "borrow":
             if (commands.length < 2) {
