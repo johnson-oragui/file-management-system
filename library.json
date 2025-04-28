@@ -1,0 +1,11 @@
+[ {
+  "title" : "Citadel of Hosts",
+  "author" : "Some Author",
+  "isbn" : "1",
+  "isBorrowed" : true
+}, {
+  "title" : "Lord of the Rings",
+  "author" : "Some Author",
+  "isbn" : "0",
+  "isBorrowed" : true
+} ]
