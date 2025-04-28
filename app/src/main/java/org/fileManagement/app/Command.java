@@ -11,7 +11,8 @@ public class Command {
   public static void handleCommand(Member currentMember) {
     try (Scanner scanner = new Scanner(System.in)) {
       System.out.println("FILE MANAGEMENT SYSTEM");
-      System.out.println("commands: exit, quit, login, register, borrow, return, list books, add book, report, logout");
+      System.out.println(
+          "commands: exit, quit, login, register, borrow, return, list books, list borrowed-books, list users, add book, report, logout");
       while (true) {
 
         System.out.print(">>> ");
@@ -130,6 +131,18 @@ public class Command {
               continue;
             }
             System.out.println(title + " is borrowed already or does not exist.");
+            continue;
+          case "logout":
+            if (commands.length == 1) {
+              if (currentMember != null) {
+                currentMember = null;
+                System.out.println("Logout successful");
+                continue;
+              }
+              System.out.println("Not Authenticated");
+              continue;
+            }
+            System.out.println("Usage logout");
             continue;
           default:
             System.out.println("invalid command");
