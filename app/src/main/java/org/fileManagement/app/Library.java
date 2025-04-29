@@ -58,14 +58,15 @@ class Library {
       loadBooksFromFile(isBorrowed, isFree);
 
       if (query == "") {
+        System.out.println("fetching all books...");
         for (Map.Entry<String, Book> entry : this.books.entrySet()) {
           foundBooks.add(entry.getValue());
         }
 
       } else {
-        // System.out.println(this.books.size());
+        System.out.println("searching for title... " + query);
         for (Map.Entry<String, Book> book : this.books.entrySet()) {
-          if (query.equalsIgnoreCase(book.getKey())) {
+          if (book.getKey().equalsIgnoreCase(query.trim())) {
             foundBooks.add(book.getValue());
           }
         }
@@ -108,6 +109,39 @@ class Library {
     }
 
     return Optional.empty();
+  }
+
+  public Boolean returnBook(String title) {
+    // finds the searched book and loads free-books to this.books
+    List<Book> bookExists = this.search(title, true, false);
+
+    List<Book> booksToWrite = new ArrayList<>();
+
+    if (bookExists.size() > 0) {
+
+      Book book = bookExists.get(0);
+      book.setIsBorrowed(false);
+      try {
+        // loads all books to this.books
+        loadBooksFromFile(false, false);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      // remove the searched book
+      this.books.remove(book.getTitle());
+      // add the searched book with updated isBorrowed
+      this.books.put(book.getTitle(), book);
+      // set back as a list for serialization
+      for (Map.Entry<String, Book> entry : this.books.entrySet()) {
+        booksToWrite.add(entry.getValue());
+      }
+
+      // write to file with updated searched book
+      JsonUtils.writeObjectToJsonFile(booksToWrite, "library.json");
+      return true;
+    }
+
+    return false;
   }
 }
 
