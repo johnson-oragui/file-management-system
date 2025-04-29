@@ -41,10 +41,7 @@ class Admin extends User {
     /* ... */ }
 
   public String toString() {
-    StringBuilder str = new StringBuilder();
-    str.append(username);
-    str.append(password);
-    return str.toString();
+    return getUsername();
   }
 
   public void save() {
@@ -155,12 +152,20 @@ class Member extends User {
     return this.borrowedBooks;
   }
 
+  public void removeBorrowedBooks(String title) {
+    List<Book> borrowed = new ArrayList<>();
+    for (Book book : this.getBorrowedBooks()) {
+      if (!book.getTitle().equalsIgnoreCase(title.trim())) {
+        borrowed.add(book);
+      }
+
+    }
+    this.setBorrowedBooks(borrowed);
+  }
+
   // Method to add single book
   public Boolean addBorrowedBook(Book book) {
-    if (this.borrowedBooks.size() == 0) {
-      this.borrowedBooks.add(book);
-      return true;
-    }
+
     for (Book book_ : this.borrowedBooks) {
       if (book_.getTitle().equalsIgnoreCase(book.getTitle())) {
         return false; // book already borrowed
@@ -179,6 +184,31 @@ class Member extends User {
     JsonUtils.writeObjectToJsonFile(members, "member.json");
     return true;
 
+  }
+
+  public Boolean returnBook(String title) {
+    int borrowedBookSize = this.getBorrowedBooks().size();
+    if (borrowedBookSize == 0) {
+      return false;
+    }
+    removeBorrowedBooks(title);
+
+    List<Member> members = JsonUtils.readObjectsFromJsonFile("member.json", Member.class);
+    Iterator<Member> membersIter = members.iterator();
+
+    while (membersIter.hasNext()) {
+      Member mem = membersIter.next();
+      if (mem.getUsername().equalsIgnoreCase(this.getUsername())) {
+        mem.setBorrowedBooks(this.getBorrowedBooks());
+      }
+    }
+    if (borrowedBookSize == this.getBorrowedBooks().size()) {
+      return false;
+    }
+
+    JsonUtils.writeObjectToJsonFile(members, "member.json");
+
+    return true;
   }
 
 }
