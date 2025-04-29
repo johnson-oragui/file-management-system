@@ -22,6 +22,7 @@ public class JsonUtils {
     try {
       objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), objects);
     } catch (IOException e) {
+      System.out.println("Error writing Object to file: ");
       e.printStackTrace();
     }
   }
