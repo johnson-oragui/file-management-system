@@ -144,6 +144,36 @@ public class Command {
             }
             System.out.println("Usage logout");
             continue;
+          case "return":
+            if (commands.length < 2) {
+              System.out.println("Usage return <book title>");
+              continue;
+            }
+            if (currentMember == null) {
+              System.out.println("Unauthorized");
+              continue;
+            }
+            StringBuilder title_ = new StringBuilder();
+            int idx_ = 0;
+            for (String s : commands) {
+              if (idx_ > 0) {
+                title_.append(s);
+                title_.append(" ");
+              }
+              idx_++;
+            }
+            Boolean isReturned = currentMember.returnBook(title_.toString());
+            if (!isReturned) {
+              System.out.println("User has no borrowed book");
+              continue;
+            }
+            Boolean bookReturned = lib.returnBook(title_.toString());
+            if (!bookReturned) {
+              System.out.println("Could not return book. Try again later.");
+              continue;
+            }
+            System.out.println(title_ + " returned succesfully!");
+            continue;
           default:
             System.out.println("invalid command");
 
